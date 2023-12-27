@@ -1,0 +1,27 @@
+# -dev 모드 구동시 자동으로 이 환경설정으로 연결됨
+server:
+  port: 5000
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+
+# 환경변수로 적는 이유
+# 정보 유출 막기 위해서
+spring:
+  datasource:
+    url: jdbc:mariadb://${rds.hostname}:${rds.port}/${rds.db.name}
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: ${rds.username}
+    password: ${rds.password}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      '[hibernate.default_batch_fetch_size]': 100
+
+  logging:
+    level:
+      '[shop.mtcoding.bank]': INFO
+

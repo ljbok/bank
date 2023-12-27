@@ -1,0 +1,36 @@
+# -dev 모드 구동시 자동으로 이 환경설정으로 연결됨
+server:
+  port: 8081
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+
+# 우리가 개발할 환경에서는 h2 db를 쓸 것이다
+# MariaDB와 MySQL 문법이 같기 떄문에 아래 처럼 설정한다
+# 해석: 가짜 DB를 맞출건데 MySQL로 맞추겠다
+spring:
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enable: true
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    properties:
+      '[hibernate.default_batch_fetch_size]': 100
+      '[hibernate.format_sql]': true
+    show-sql: true
+  output:
+    ansi:
+      enabled: always
+
+  logging:
+    level:
+      '[shop.mtcoding.bank]': DEBUG
+
