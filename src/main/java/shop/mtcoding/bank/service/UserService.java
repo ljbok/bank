@@ -1,16 +1,15 @@
 package shop.mtcoding.bank.service;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.bank.domain.user.User;
-import shop.mtcoding.bank.domain.user.UserEnum;
 import shop.mtcoding.bank.domain.user.UserRepository;
+import shop.mtcoding.bank.dto.user.UserReqDto;
+import shop.mtcoding.bank.dto.user.UserRespDto;
 import shop.mtcoding.bank.handler.ex.CustomApiException;
 
 import java.util.Optional;
@@ -26,7 +25,7 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional // 트랜잭션이 메소드 시작할 때 시작되고 종료될 때 함께 종료
-    public JoinRespDto 회원가입(JoinReqDto joinReqDto){
+    public UserRespDto.JoinRespDto 회원가입(UserReqDto.JoinReqDto joinReqDto){
         // username, password, email, password 4개 받아오면 된다.
 
         // 1. 동일 유저네임 존재 검사
@@ -39,7 +38,7 @@ public class UserService {
         User userPS = userRepository.save(joinReqDto.toEntity(passwordEncoder));
 
         // 3. dto 응답 (회원가입이 잘 되었다는 것을 응답해주기 위함)
-        return new JoinRespDto(userPS);
+        return new UserRespDto.JoinRespDto(userPS);
 
     } //-------------------------------회원가입()
 
@@ -48,6 +47,7 @@ public class UserService {
     // 이 강의에서는 Service 내부에다가 만든 것으로 보면 된다. (--> 내 생각에는 그냥 따로 빼주는 것이 좋을 듯)
     // 안에다 내부 클래스로 작성하니깐 지저분함 그리고 원래 dto라 하더라도 setter는 만들어주면 안됨 생성자로 처리해야 하는데
     // 이 강사는 왜 그렇게 하는지 모르겠다 나중에는 이해가 되지 않으려나 기다려봐야겠다;;
+/*  // ==> 리팩토링 하면서 이 부분 UserReqDto와 UserRespDto로 이동
     @Getter
     @Setter
     public static class JoinRespDto{
@@ -85,5 +85,7 @@ public class UserService {
                     .build();
         }
     }
+*/
+
 
 }

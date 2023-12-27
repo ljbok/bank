@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="shop.mtcoding.bank.Service.UserServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-12-27T12:56:37" hostname="DESKTOP-QTG5SLK" time="1.236">
+<testsuite name="shop.mtcoding.bank.Service.UserServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-12-27T16:42:18" hostname="DESKTOP-QTG5SLK" time="1.297">
   <properties/>
-  <testcase name="회원가입_test()" classname="shop.mtcoding.bank.Service.UserServiceTest" time="1.236"/>
+  <testcase name="회원가입_test()" classname="shop.mtcoding.bank.Service.UserServiceTest" time="1.297"/>
   <system-out><![CDATA[테스트 회원가입 된 ssar 정보 : shop.mtcoding.bank.dto.user.UserRespDto$JoinRespDto@34cf294c
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
