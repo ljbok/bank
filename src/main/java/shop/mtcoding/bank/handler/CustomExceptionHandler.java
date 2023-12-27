@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import shop.mtcoding.bank.dto.ResponseDto;
 import shop.mtcoding.bank.handler.ex.CustomApiException;
+import shop.mtcoding.bank.handler.ex.CustomValidationException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
@@ -19,5 +20,12 @@ public class CustomExceptionHandler {
         log.error(e.getMessage());
         // 실패했으니깐 code 는 -1 메시지는 e.getMessage(), 돌려줄 데이터는 없으니깐 null
         return new ResponseEntity<>(new ResponseDto<>(-1,e.getMessage(),null),HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CustomValidationException.class)
+    public ResponseEntity<?> validationApiException(CustomValidationException e){
+        log.error(e.getMessage());
+        // 실패했으니깐 code 는 -1 메시지는 e.getMessage(), 돌려줄 데이터는 없으니깐 null
+        return new ResponseEntity<>(new ResponseDto<>(-1,e.getMessage(),e.getErrorMap()),HttpStatus.BAD_REQUEST);
     }
 }

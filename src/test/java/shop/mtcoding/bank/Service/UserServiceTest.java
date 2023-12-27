@@ -5,14 +5,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;  // 임포트 경로 유의
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import shop.mtcoding.bank.config.dummy.DummyObject;
 import shop.mtcoding.bank.domain.user.User;
 import shop.mtcoding.bank.domain.user.UserEnum;
 import shop.mtcoding.bank.domain.user.UserRepository;
+import shop.mtcoding.bank.dto.user.UserReqDto;
+import shop.mtcoding.bank.dto.user.UserRespDto;
 import shop.mtcoding.bank.service.UserService;
 
-// mockito 사용을 위해서 내가 수동으로 import 한 static 패키지 , alt + enter 하면 할 수 있음
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -22,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 // 이 환경에서는 spring 관련 bean 들이 하나도 없는 환경 따라서 직접 private UserRepository userRepsotiory 이런식으로 만들어야 한다.
 @ExtendWith(MockitoExtension.class) // service 테스트 하기 위해 붙여야 하는 어노테이션 : mockito 환경에서 테스트 해보겠다
-public class UserServiceTest {
+public class UserServiceTest extends DummyObject {
 
     @InjectMocks // 가짜 환경에다가 넣어줘야 하기 때문에 @Autowired 가 아닌 @InjectMocks로 어노테이션을 작성한다.
     private UserService userService;
@@ -37,7 +39,7 @@ public class UserServiceTest {
     @Test
     public void 회원가입_test() throws Exception{
         // given
-        UserService.JoinReqDto joinReqDto = new UserService.JoinReqDto();
+        UserReqDto.JoinReqDto joinReqDto = new UserReqDto.JoinReqDto();
         joinReqDto.setUsername("ssar");
         joinReqDto.setPassword("1234");
         joinReqDto.setEmail("ssar@nate.com");
@@ -58,20 +60,11 @@ public class UserServiceTest {
         //when(userRepository.findByUsername(any())).thenReturn(Optional.of(new User()));
 
         // stub 2
-        User ssar = User.builder()
-                .id(1L)
-                .username("ssar")
-                .password("1234")
-                .email("ssar@nate.com")
-                .fullname("쌀")
-                .role(UserEnum.CUSTOMER)
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
+        User ssar = newMockUser(1L,"ssar","쌀");
         when(userRepository.save(any())).thenReturn(ssar);
 
         // when
-        UserService.JoinRespDto joinRespDto = userService.회원가입(joinReqDto); // 회원가입 go
+        UserRespDto.JoinRespDto joinRespDto = userService.회원가입(joinReqDto); // 회원가입 go
         System.out.println("테스트 회원가입 된 ssar 정보 : " + joinRespDto.toString() );
 
         // then : assertThat() 안에 있는 값이 isEqualTo() 안에 있는 값(예상값)과 다르다면 에러를 던진다.
